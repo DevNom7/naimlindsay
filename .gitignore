@@ -1,0 +1,9 @@
+node_modules/
+.env
+.DS_Store
+npm-debug.log*
+public/assets/*.mp4
+public/assets/*.mov
+public/assets/*.zip
+public/assets/*.docx
+public/assets/*.pdf

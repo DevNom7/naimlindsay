@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/travel">Travel</a></li>
+</ul>
+
+{{#each trips}}
+  <hr />
+  <h2>{{name}}</h2>
+  <img src="/images/{{image}}" alt="{{name}}" style="max-width: 500px;" />
+  <p>{{description}}</p>
+{{/each}}
