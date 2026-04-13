@@ -3,387 +3,485 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ePortfolio | Naim Lindsay</title>
+  <title>Naim Lindsay | CS 499 ePortfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #0b0f14;
-      --panel: #11141c;
-      --panel-border: #1c212c;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #ef4444;
-      --accent-2: #f97316;
-      --shadow: 0 18px 50px rgba(0,0,0,0.45);
-      --radius: 16px;
-      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
-      --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --bg:      #09090b;
+      --surface: #111113;
+      --border:  #27272a;
+      --text:    #fafafa;
+      --muted:   #71717a;
+      --subtle:  #3f3f46;
+      --accent:  #f43f5e;
+      --sans:    'Inter', system-ui, sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--sans);
-      background:
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 8px, transparent 8px, transparent 16px),
-        radial-gradient(circle at 15% 20%, rgba(239,68,68,0.12), transparent 35%),
-        radial-gradient(circle at 80% 0%, rgba(249,115,22,0.10), transparent 40%),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.75;
-      min-height: 100vh;
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* NAV */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11,15,20,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--panel-border);
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      overflow-x: auto;
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 32px; gap: 4px;
+      height: 48px;
     }
-    nav a {
-      display: inline-block;
-      padding: 14px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      text-decoration: none;
-      white-space: nowrap;
-      border-bottom: 2px solid transparent;
-      transition: color .15s, border-color .15s;
+    .nav-brand {
+      font-size: 13px; font-weight: 600;
+      color: var(--text); margin-right: auto;
+      text-decoration: none; letter-spacing: -0.01em;
     }
-    nav a:hover, nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
-    nav .brand { color: var(--text); font-size: 14px; font-weight: 700; margin-right: auto; border-bottom: none; }
-    nav .brand:hover { color: var(--accent-2); border-bottom: none; }
-
-    /* LAYOUT */
-    .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
-
-    section { margin-bottom: 64px; scroll-margin-top: 64px; }
-
-    /* HEADER */
-    .hero { margin-bottom: 48px; }
-    .hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 6px; }
-    .hero .sub { color: var(--muted); font-size: 15px; margin-bottom: 16px; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 12px;
-      background: rgba(239,68,68,0.12);
-      color: var(--accent);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: 999px;
-      font-size: 12px; font-weight: 600;
+    .nav-brand:hover { color: var(--accent); }
+    nav a:not(.nav-brand) {
+      font-size: 12px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 10px; border-radius: 6px;
+      transition: color .12s, background .12s;
     }
+    nav a:not(.nav-brand):hover { color: var(--text); background: rgba(255,255,255,0.06); }
 
-    /* SECTION HEADINGS */
-    .section-label {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    /* PAGE */
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .1em;
       text-transform: uppercase; color: var(--accent);
       margin-bottom: 20px;
     }
-    .section-label::after {
-      content: ''; flex: 1; height: 1px; background: var(--panel-border);
+    .hero h1 {
+      font-size: 42px; font-weight: 600;
+      letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--text); margin-bottom: 16px;
     }
-    h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
-    h3 { font-size: 16px; font-weight: 700; color: var(--accent-2); margin: 22px 0 8px; }
+    .hero p {
+      font-size: 16px; color: var(--muted);
+      max-width: 520px; line-height: 1.65;
+    }
 
-    /* CARD */
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius);
-      padding: 26px 28px;
-      box-shadow: var(--shadow);
+    /* SECTION */
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 64px;
     }
-    .card + .card { margin-top: 16px; }
+    section:last-of-type { border-bottom: none; }
+
+    .section-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 8px; display: block;
+    }
+    .section-title {
+      font-size: 24px; font-weight: 600;
+      letter-spacing: -0.02em; margin-bottom: 32px;
+      color: var(--text);
+    }
 
     /* PROSE */
-    .prose p { color: var(--muted); margin-bottom: 14px; font-size: 15px; }
+    .prose p {
+      color: var(--muted); margin-bottom: 18px;
+      font-size: 15px; line-height: 1.75;
+    }
     .prose p:last-child { margin-bottom: 0; }
+    .prose h3 {
+      font-size: 13px; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--subtle); margin: 36px 0 10px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .prose h3:first-child { margin-top: 0; }
+
+    /* INLINE CODE */
+    code {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 13px; color: var(--accent);
+      background: rgba(244,63,94,0.08);
+      padding: 1px 5px; border-radius: 4px;
+    }
 
     /* LINKS */
-    a { color: var(--accent); text-decoration: none; font-weight: 600; }
-    a:hover { color: var(--accent-2); text-decoration: underline; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    /* ARTIFACT GRID */
-    .artifact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media(max-width: 600px) { .artifact-grid { grid-template-columns: 1fr; } }
-
-    .artifact-card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius);
-      padding: 20px 22px;
-      box-shadow: var(--shadow);
+    /* ENHANCEMENT META */
+    .enhancement-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
     }
-    .artifact-card h3 { margin: 0 0 6px; font-size: 14px; color: var(--text); }
-    .artifact-card p { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
-    .artifact-card a.btn {
-      display: inline-block;
-      padding: 7px 14px;
-      background: rgba(239,68,68,0.12);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: 8px;
-      font-size: 13px; color: var(--accent);
+    .badge {
+      font-size: 11px; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px; padding: 3px 10px;
     }
-    .artifact-card a.btn:hover { background: rgba(239,68,68,0.22); text-decoration: none; }
 
-    /* TECH TAGS */
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    /* ARTIFACTS */
+    .artifact-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-top: 24px;
+    }
+    @media (max-width: 560px) { .artifact-row { grid-template-columns: 1fr; } }
+
+    .artifact-item {
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      background: var(--surface);
+    }
+    .artifact-item h4 {
+      font-size: 13px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .artifact-item p {
+      font-size: 13px; color: var(--muted); margin-bottom: 14px;
+    }
+    .artifact-item a {
+      font-size: 12px; font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* TAGS */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
     .tag {
-      font-family: var(--mono); font-size: 12px; color: var(--accent);
-      background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
+      font-size: 11px; font-weight: 500;
+      color: var(--muted); border: 1px solid var(--border);
       border-radius: 6px; padding: 2px 8px;
-    }
-
-    /* ENHANCEMENT CARDS */
-    .enhancement-number {
-      font-family: var(--mono); font-size: 11px; color: var(--accent);
-      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
-      border-radius: 6px; padding: 2px 8px; display: inline-block; margin-bottom: 10px;
     }
 
     /* FOOTER */
     footer {
-      border-top: 1px solid var(--panel-border);
-      padding: 24px;
-      display: flex; justify-content: flex-end; align-items: center;
-      gap: 16px; flex-wrap: wrap;
-      font-size: 13px; color: var(--muted);
-      max-width: 900px; margin: 0 auto;
+      padding: 32px 0 48px;
     }
-    footer a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
-    footer svg { width: 16px; height: 16px; }
+    .footer-inner {
+      max-width: 720px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+    footer span { font-size: 12px; color: var(--subtle); margin-right: auto; }
+    footer a { font-size: 12px; font-weight: 500; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+    footer a:hover { color: var(--text); text-decoration: none; }
+    footer svg { width: 14px; height: 14px; }
+
+    /* SCROLL PROGRESS */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; z-index: 200;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), #f97316);
+      transition: width .05s linear;
+    }
+
+    /* FADE IN ON SCROLL */
+    .reveal {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* HERO GLOW */
+    .hero-glow {
+      position: absolute; top: -60px; left: -80px;
+      width: 420px; height: 320px; pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(244,63,94,0.10) 0%, transparent 70%);
+      filter: blur(30px);
+    }
+    .hero { position: relative; overflow: visible; }
+
+    /* CONCLUSION */
+    .conclusion {
+      padding: 64px 0 80px;
+      border-top: 1px solid var(--border);
+    }
+    .conclusion-inner {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 40px;
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+    .conclusion-inner::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), #f97316, transparent);
+    }
+    .conclusion-inner p {
+      color: var(--muted); font-size: 15px; line-height: 1.8;
+      margin-bottom: 14px;
+    }
+    .conclusion-inner p:last-child { margin-bottom: 0; }
+    .conclusion-inner strong { color: var(--text); font-weight: 600; }
+
+    /* STAT DOTS on hero */
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;
+    }
+    .hero-stat span:first-child {
+      display: block; font-size: 22px; font-weight: 600;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .hero-stat span:last-child {
+      display: block; font-size: 11px; font-weight: 500;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+    }
+
+    /* GLOWING DOT */
+    .dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      animation: pulse-dot 2s ease-in-out infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 6px #22c55e; }
+      50%       { opacity: .6; box-shadow: 0 0 12px #22c55e; }
+    }
+
+    /* COPY BUTTON for code snippets, if any */
+    nav a:not(.nav-brand).active-link { color: var(--text); background: rgba(255,255,255,0.06); }
   </style>
 </head>
 <body>
+<div id="progress-bar"></div>
 
 <nav>
-  <a class="brand" href="#top">Naim Lindsay</a>
-  <a href="#self-assessment">Self-Assessment</a>
+  <a class="nav-brand" href="#top">Naim Lindsay</a>
+  <a href="#self-assessment">About</a>
   <a href="#code-review">Code Review</a>
   <a href="#artifacts">Artifacts</a>
-  <a href="#enhancement-1">Software Design</a>
+  <a href="#enhancement-1">SE</a>
   <a href="#enhancement-2">Algorithms</a>
   <a href="#enhancement-3">Databases</a>
 </nav>
 
-<div class="page" id="top">
+<div class="container" id="top">
 
   <!-- HERO -->
   <div class="hero">
+    <div class="hero-glow"></div>
+    <p class="hero-label"><span class="dot"></span>CS 499 Capstone ePortfolio</p>
     <h1>Naim Lindsay</h1>
-    <p class="sub">Computer Science | Southern New Hampshire University | CS 499 Capstone</p>
-    <span class="pill">Backend &amp; Full-Stack Software Engineering</span>
+    <p>Computer Science, Southern New Hampshire University. Backend and full-stack software engineering, with a focus on scalable API design, data structures, and secure systems.</p>
+    <div class="tag-row" style="margin-top:24px;">
+      <span class="tag">Node.js</span>
+      <span class="tag">MongoDB</span>
+      <span class="tag">Express</span>
+      <span class="tag">Angular</span>
+      <span class="tag">JWT</span>
+      <span class="tag">RBAC</span>
+      <span class="tag">REST APIs</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span>3</span><span>Enhancements</span></div>
+      <div class="hero-stat"><span>1</span><span>Artifact</span></div>
+      <div class="hero-stat"><span>5</span><span>Course Outcomes</span></div>
+      <div class="hero-stat"><span>2023</span><span>Started</span></div>
+    </div>
   </div>
 
-  <!-- SELF-ASSESSMENT -->
-  <section id="self-assessment">
-    <div class="section-label">Professional Self-Assessment</div>
-    <div class="card prose">
-      <p>
-        Completing the Computer Science program at Southern New Hampshire University has been a foundational experience that shaped both my technical skills and how I think about software professionally. When I started in 2023, I had a general interest in technology but limited real experience building software systems. That changed over the course of the program. Through courses covering data structures, algorithms, full-stack development, secure coding, and software testing, I built the skills and confidence to approach real engineering problems. The capstone ePortfolio brings all of that together through enhancements to one real-world application, demonstrating growth across software engineering, algorithms, and database design.
-      </p>
+  <!-- SELF ASSESSMENT -->
+  <section id="self-assessment" class="reveal">
+    <span class="section-tag">Professional Self-Assessment</span>
+    <h2 class="section-title">My CS Journey</h2>
+    <div class="prose">
+      <p>I started the Computer Science program at SNHU in 2023 with a general interest in technology but not a lot of real experience building software. Over the course of the program, that changed. Through courses covering data structures, algorithms, full-stack development, secure coding, and software testing, I built the skills to actually approach engineering problems at a professional level. This capstone brings that growth together through enhancements to one real-world application, covering software engineering, algorithms, and databases.</p>
 
       <h3>Collaborating in a Team Environment</h3>
-      <p>
-        CS 250: Software Development Lifecycle was where I first learned how software is actually built in a professional setting. Working through the Agile development process, writing user stories, and participating in sprint planning taught me that writing code is only part of the job. Good code has to be readable and structured in a way that other developers can work with it. That idea shaped how I approached this capstone. The service layer I built separates business logic from the HTTP layer so that any developer on the team can change one part without needing to understand everything else. That kind of structure is not just about personal preference -- it is a form of collaboration built into the architecture.
-      </p>
+      <p>CS 250 (Software Development Lifecycle) was where I first learned how software is actually built professionally. Working through Agile, writing user stories, and doing sprint planning taught me that writing code is only part of the job. Good code has to be readable and structured in a way that other developers can work with it. That idea shaped how I approached this capstone. The service layer I built separates business logic from the HTTP layer so that any developer can change one part without needing to understand the whole system. That kind of structure is not just personal preference, it is a form of collaboration built into the architecture.</p>
 
       <h3>Communicating with Stakeholders</h3>
-      <p>
-        CS 250 also reinforced that engineers have to explain their decisions to people who are not engineers. Learning to write user stories and present trade-offs in plain language helped me understand that technical ability without communication is not enough. In the code review I produced for this capstone, I explained my planned enhancements in terms of what they would improve about the application, not just the technical details of how they worked. Being able to frame technical decisions in terms of outcomes is a skill I want to keep developing as I move into my career.
-      </p>
+      <p>CS 250 also reinforced that engineers have to explain their decisions to people who are not engineers. Learning to write user stories and present trade-offs in plain language helped me understand that technical ability without communication is not enough. In the code review I produced for this capstone, I explained my planned enhancements in terms of what they would improve, not just the technical details. Being able to frame technical decisions in terms of outcomes is something I want to keep building on in my career.</p>
 
       <h3>Data Structures and Algorithms</h3>
-      <p>
-        CS 260: Data Structures and Algorithms gave me the foundation I actually used in this capstone. Understanding how hash maps and linked lists work at the implementation level made it possible to build the custom LRU cache in the Travlr API from scratch, rather than relying on a library. I used a doubly linked list for fast move-to-front operations and a hash map for O(1) key lookups -- the same structure used in real caching systems. The MongoDB aggregation pipeline I built for filtering trips by price range required similar thinking: structuring a sequence of operations to compute, filter, sort, and paginate data while minimizing unnecessary work.
-      </p>
+      <p>CS 260 gave me the foundation I actually used in this capstone. Understanding how hash maps and linked lists work at the implementation level made it possible to build the custom LRU cache from scratch rather than installing a library. I used a doubly linked list for O(1) move-to-front and a hash map for O(1) lookups, the same structure used in real caching systems. The MongoDB aggregation pipeline I built for price-range filtering required similar thinking: structuring a sequence of operations to compute, filter, sort, and paginate while minimizing unnecessary database work.</p>
 
       <h3>Software Engineering and Databases</h3>
-      <p>
-        CS 465: Full Stack Development I introduced the MEAN stack and gave me the foundation for this capstone artifact. The enhancements I made through CS 499 address what a single course could not fully cover: production-quality backend architecture. Adding a layered structure with routes, controllers, and services, centralized error handling, input validation middleware, and role-based access control represents the difference between a course project and something built to professional standards. On the database side, adding strict schema validation, unique constraints, and enum enforcement on user roles showed me that database integrity has to be designed in from the start. Embedding user roles in JWT payloads to avoid per-request database lookups was a decision that came directly from thinking about how database design affects performance.
-      </p>
+      <p>CS 465 introduced the MEAN stack and gave me the foundation for this capstone artifact. The enhancements I made through CS 499 cover what a single course could not fully address: production-quality backend architecture. Adding a layered structure with routes, controllers, and services, centralized error handling, input validation middleware, and role-based access control represents the difference between a course project and something built to professional standards. On the database side, adding strict schema validation, unique constraints, and enum enforcement on user roles showed me that data integrity has to be designed in from the start.</p>
 
       <h3>Security</h3>
-      <p>
-        CS 405: Secure Coding gave me a way to think about security that I have not stopped using since. The most important idea from that course was defense in depth: no single layer should be the only thing protecting the system. In this capstone I applied that directly. Input is validated by middleware before it reaches the controller. Constraints are enforced again at the Mongoose schema layer before data is written. Write routes require both JWT authentication and role-based authorization. Each layer is designed assuming the previous one might be bypassed. That approach to security, anticipating failure and building protection at every level, is what Course Outcome 5 is really asking for.
-      </p>
+      <p>CS 405 (Secure Coding) gave me a way to think about security that I have not stopped using. The most important idea was defense in depth: no single layer should be the only thing protecting the system. In this capstone I applied that directly. Input is validated at the middleware layer before the controller. Constraints are enforced again at the Mongoose schema layer before anything is written to the database. Write routes require both JWT authentication and role-based authorization. Each layer is designed assuming the previous one might be bypassed.</p>
 
-      <h3>Portfolio Summary</h3>
-      <p>
-        All three enhancements in this portfolio build on the same artifact and they are connected. The software engineering enhancement introduced the architecture that makes the code maintainable. The algorithms enhancement added the caching and query system that makes the API fast and flexible. The database enhancement tightened the schema and added access control that makes the system secure. These are not separate demonstrations -- they depend on each other. A clean architecture is easier to secure. Secure access control depends on a well-designed schema. Efficient queries depend on a service layer that can be reasoned about clearly. Together, they show that I can design, build, and reason about software at a professional level.
-      </p>
+      <h3>How the Artifacts Fit Together</h3>
+      <p>All three enhancements build on the same artifact and they are connected. The software engineering enhancement introduced the architecture that makes the code maintainable. The algorithms enhancement added caching and query capabilities that make the API fast and flexible. The database enhancement tightened the schema and added access control that makes the system secure. These are not separate demonstrations. A clean architecture is easier to secure. Secure access control depends on a well-designed schema. Efficient queries depend on a service layer that can be reasoned about independently. Together they show I can design and build software at a professional level.</p>
     </div>
   </section>
 
   <!-- CODE REVIEW -->
-  <section id="code-review">
-    <div class="section-label">Code Review</div>
-    <div class="card prose">
-      <h2>Informal Code Review</h2>
-      <p>
-        This code review walkthrough covers the existing Travlr Getaways codebase before enhancements, identifies areas for improvement in structure, logic, efficiency, security, and documentation, and outlines the planned enhancements for each of the three categories.
-      </p>
-      <p style="margin-top:16px;">
-        <a href="assets/code-review.mp4" target="_blank" class="btn" style="display:inline-block;padding:9px 18px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;font-size:14px;color:var(--accent);">Watch Code Review Video</a>
-      </p>
+  <section id="code-review" class="reveal">
+    <span class="section-tag">Milestone One</span>
+    <h2 class="section-title">Code Review</h2>
+    <div class="prose">
+      <p>A walkthrough of the existing Travlr Getaways codebase before any enhancements. Covers existing functionality, areas for improvement in structure, logic, efficiency, and security, and outlines the planned enhancements across all three categories.</p>
+    </div>
+    <div style="margin-top:24px;">
+      <a href="assets/code-review.mp4" target="_blank" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:9px 16px;background:var(--surface);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Watch Code Review Video
+      </a>
     </div>
   </section>
 
   <!-- ARTIFACTS -->
-  <section id="artifacts">
-    <div class="section-label">Artifacts</div>
-    <h2>Travlr Getaways -- MEAN Stack Application</h2>
-    <p style="color:var(--muted);font-size:15px;margin-bottom:20px;">
-      A full-stack travel booking application built with MongoDB, Express, Angular, and Node.js. Originally developed in CS-465: Full Stack Development I and enhanced throughout CS-499 to demonstrate competency in software engineering, algorithms, and databases.
-    </p>
-    <div class="tags" style="margin-bottom:24px;">
-      <span class="tag">MongoDB</span>
-      <span class="tag">Express.js</span>
-      <span class="tag">Angular</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">JWT</span>
-      <span class="tag">RBAC</span>
-      <span class="tag">LRU Cache</span>
-      <span class="tag">Aggregation Pipeline</span>
+  <section id="artifacts" class="reveal">
+    <span class="section-tag">Project Artifact</span>
+    <h2 class="section-title">Travlr Getaways</h2>
+    <div class="prose">
+      <p>A full-stack travel booking application built with the MEAN stack. Originally developed in CS-465 and enhanced throughout CS-499 to demonstrate growth in software engineering, algorithms, and databases.</p>
     </div>
-    <div class="artifact-grid">
-      <div class="artifact-card">
-        <h3>Original Artifact</h3>
-        <p>The CS-465 final project as submitted before any CS-499 enhancements.</p>
-        <a class="btn" href="assets/original-artifact.zip" download>Download Original</a>
+    <div class="artifact-row">
+      <div class="artifact-item">
+        <h4>Original Artifact</h4>
+        <p>CS-465 final submission before CS-499 enhancements.</p>
+        <a href="assets/original-artifact.zip" download>Download ZIP</a>
       </div>
-      <div class="artifact-card">
-        <h3>Enhanced Artifact</h3>
-        <p>The fully enhanced version with all three category improvements applied.</p>
-        <a class="btn" href="assets/enhanced-artifact.zip" download>Download Enhanced</a>
+      <div class="artifact-item">
+        <h4>Enhanced Artifact</h4>
+        <p>Final version with all three category improvements applied.</p>
+        <a href="assets/enhanced-artifact.zip" download>Download ZIP</a>
       </div>
     </div>
   </section>
 
   <!-- ENHANCEMENT 1 -->
-  <section id="enhancement-1">
-    <div class="section-label">Enhancement One</div>
-    <div class="card">
-      <span class="enhancement-number">Category 01 -- Software Design and Engineering</span>
-      <h2>Backend Architecture Refactor</h2>
-      <div class="prose">
-        <h3>Artifact Description</h3>
-        <p>
-          The artifact for this enhancement is the Travlr Getaways full-stack web application, originally developed in CS-465: Full Stack Development I. This project uses the MEAN stack and includes a web interface for managing travel data and an API backend connected to a MongoDB database. The application was completed in the final weeks of CS-465.
-        </p>
+  <section id="enhancement-1" class="reveal">
+    <div class="enhancement-meta">
+      <span class="section-tag" style="margin-bottom:0;">Milestone Two</span>
+      <span class="badge">Software Design and Engineering</span>
+    </div>
+    <h2 class="section-title">Backend Architecture Refactor</h2>
+    <div class="prose">
+      <h3>What It Is</h3>
+      <p>The artifact is the Travlr Getaways full-stack web application, originally built in CS-465. It uses the MEAN stack and includes a customer-facing web interface and an admin panel, both backed by a Node/Express API connected to MongoDB.</p>
 
-        <h3>Justification and Improvements</h3>
-        <p>
-          I selected this artifact because it represents a realistic, industry-relevant backend system with meaningful room for architectural improvement. The original implementation had routes and controllers separated, but several gaps remained that would be problematic in a professional environment.
-        </p>
-        <p>
-          The specific improvements made for this enhancement include: a new <code>app_api/services/tripService.js</code> module that holds all database interaction logic, separating it from HTTP handling; a dedicated <code>app_api/middleware/errorHandler.js</code> that differentiates between JWT authentication errors, Mongoose validation errors, and general server errors; and an input validation middleware that checks all required fields and types before requests reach the controller. Together these changes move the backend from a working prototype toward industry-level layered architecture.
-        </p>
+      <h3>What Was Improved</h3>
+      <p>The original implementation had routes and controllers separated but mixed business logic, database calls, and error handling inside the same functions. I refactored the backend into three clear layers. A new <code>tripService.js</code> module owns all database interaction. A dedicated <code>errorHandler.js</code> middleware handles JWT errors, Mongoose validation errors, and general failures in one place. An input validation middleware checks all required fields and types before a request reaches the controller, so bad data never gets to the database.</p>
 
-        <h3>Course Outcomes</h3>
-        <p>
-          This enhancement meets Course Outcome 4 (using well-founded techniques to implement solutions that accomplish industry-specific goals) and Course Outcome 5 (developing a security mindset that anticipates adversarial exploits). The validation middleware prevents malformed data from reaching the database. The centralized error handler ensures internal server details are never leaked to the client in production.
-        </p>
+      <h3>Course Outcomes</h3>
+      <p>This enhancement meets Outcome 4 (using well-founded techniques to accomplish industry goals) and Outcome 5 (developing a security mindset). The validation middleware prevents malformed data from reaching the database. The centralized error handler ensures internal details are never exposed to the client in production.</p>
 
-        <h3>Reflection</h3>
-        <p>
-          The most valuable thing I learned was how much cleaner a controller becomes when it does not own the database logic. Before the refactor, each controller was mixing HTTP handling, database queries, and error formatting together. After extracting the database calls into the service layer and routing errors through a single middleware, each layer has a single, clear responsibility. The main challenge was rethinking the error flow -- Express's four-parameter error middleware requires that every async handler passes errors to <code>next(err)</code> rather than catching and responding inline. Updating every controller consistently was a straightforward but important change to get right.
-        </p>
-      </div>
+      <h3>What I Learned</h3>
+      <p>The biggest thing I learned was how much cleaner a controller becomes when it does not own the database logic. Before the refactor, each function was mixing HTTP handling, queries, and error formatting together. After separating it out, each layer has a single clear responsibility. The main challenge was rethinking the error flow. Express's four-parameter error middleware requires every async handler to call <code>next(err)</code> rather than catching and responding inline. Getting that consistent across every controller was a straightforward but important change.</p>
     </div>
   </section>
 
   <!-- ENHANCEMENT 2 -->
-  <section id="enhancement-2">
-    <div class="section-label">Enhancement Two</div>
-    <div class="card">
-      <span class="enhancement-number">Category 02 -- Algorithms and Data Structures</span>
-      <h2>LRU Cache, Pagination, and Filtering</h2>
-      <div class="prose">
-        <h3>Artifact Description</h3>
-        <p>
-          The artifact for this enhancement is the same Travlr Getaways application from CS-465, specifically the backend API layer responsible for querying and returning trip data. The original implementation retrieved every trip document from the database in a single unfiltered query and returned all results at once, with no caching.
-        </p>
+  <section id="enhancement-2" class="reveal">
+    <div class="enhancement-meta">
+      <span class="section-tag" style="margin-bottom:0;">Milestone Three</span>
+      <span class="badge">Algorithms and Data Structures</span>
+    </div>
+    <h2 class="section-title">LRU Cache, Pagination, and Filtering</h2>
+    <div class="prose">
+      <h3>What It Is</h3>
+      <p>The same Travlr Getaways application, focusing specifically on the backend trip listing endpoint. The original version retrieved every trip from the database in a single unfiltered query with no caching, every time.</p>
 
-        <h3>Justification and Improvements</h3>
-        <p>
-          I selected this artifact because the trip listing endpoint is the most data-intensive part of the application and represented a clear opportunity to apply algorithmic thinking. The improvements include a custom LRU cache implemented from scratch using a doubly linked list and a hash map, skip-offset pagination, field-based sorting, case-insensitive resort filtering, and numeric price-range filtering via MongoDB aggregation pipeline.
-        </p>
-        <p>
-          The LRU cache was the most algorithmically interesting piece. Most recently accessed entries are kept at the front of the doubly linked list and the least recently used entry at the tail is evicted when capacity is reached. Both get and put operations run in O(1) time. The price-range filter required an aggregation pipeline to strip formatting characters from the perPerson string field and cast it to a double for numeric comparison, without changing the schema.
-        </p>
+      <h3>What Was Improved</h3>
+      <p>I built a custom LRU cache from scratch using a doubly linked list and a hash map. Most recently accessed entries are at the head, least recently used at the tail, and the tail is evicted when capacity is reached. Both get and put run in O(1) time. I also added skip-offset pagination, field-based sorting, case-insensitive resort filtering, and numeric price-range filtering. The price filter was the most interesting part: because <code>perPerson</code> is stored as a formatted string, I used a MongoDB aggregation pipeline to strip formatting characters and cast the value to a number for comparison, without changing the schema.</p>
 
-        <h3>Course Outcomes</h3>
-        <p>
-          This enhancement meets Course Outcome 3 (designing computing solutions using algorithmic principles while managing trade-offs) and Course Outcome 4. The skip-offset pagination algorithm trades simplicity for performance at very large scale -- cursor-based pagination would perform better on massive datasets but is significantly more complex to implement. Documenting that trade-off demonstrates awareness of algorithmic design decisions rather than just implementing a solution.
-        </p>
+      <h3>Course Outcomes</h3>
+      <p>This meets Outcome 3 (designing solutions using algorithmic principles and managing trade-offs) and Outcome 4. Skip-offset pagination trades implementation simplicity for performance at very large scale. Cursor-based pagination would perform better on massive datasets but is significantly more complex. Documenting that trade-off was part of the work.</p>
 
-        <h3>Reflection</h3>
-        <p>
-          The biggest challenge was the price filtering. Because perPerson is stored as a string, I could not add a simple numeric comparison filter. My first instinct was to add a separate numeric field to the schema, but that would require a migration and create a maintenance burden. Using the aggregation pipeline to compute the numeric value at query time was the cleaner solution. Running the count and data pipelines in parallel using <code>Promise.all</code> was a small but meaningful efficiency improvement that I had not done before.
-        </p>
-      </div>
+      <h3>What I Learned</h3>
+      <p>The main challenge was the price filtering. Since the field is a string I could not use a simple numeric filter. My first thought was to add a separate numeric field to the schema, but that would create a migration and a maintenance burden. Using the aggregation pipeline to compute the value at query time was cleaner. Running the count pipeline and data pipeline in parallel with <code>Promise.all</code> was also something I had not done before and it made a real difference.</p>
     </div>
   </section>
 
   <!-- ENHANCEMENT 3 -->
-  <section id="enhancement-3">
-    <div class="section-label">Enhancement Three</div>
-    <div class="card">
-      <span class="enhancement-number">Category 03 -- Databases</span>
-      <h2>Schema Validation and Role-Based Access Control</h2>
-      <div class="prose">
-        <h3>Artifact Description</h3>
-        <p>
-          The artifact is the database architecture and backend API for the Travlr application, a travel booking website originally created during CS-465. It is built using the MEAN stack, specifically relying on MongoDB and Mongoose for data modeling, storage, and retrieval.
-        </p>
+  <section id="enhancement-3" class="reveal">
+    <div class="enhancement-meta">
+      <span class="section-tag" style="margin-bottom:0;">Milestone Four</span>
+      <span class="badge">Databases</span>
+    </div>
+    <h2 class="section-title">Schema Validation and Role-Based Access Control</h2>
+    <div class="prose">
+      <h3>What It Is</h3>
+      <p>The database architecture and backend API for Travlr Getaways, built with MongoDB and Mongoose for data modeling, storage, and retrieval.</p>
 
-        <h3>Justification and Improvements</h3>
-        <p>
-          I selected this artifact because it provides a practical demonstration of database design, data integrity, and security. Originally, the database schemas were very basic and lacked strict validation, leaving the application vulnerable to bad data and unauthorized modifications.
-        </p>
-        <p>
-          I improved the artifact by enforcing strict schema-level constraints within Mongoose -- unique identifiers on trip codes, maxlength properties on text fields, and enum validators. I also implemented a database-backed Role-Based Access Control system. By adding a strict role field (restricted to either <code>user</code> or <code>admin</code>) to the User schema and embedding this role into authentication JWTs, only authorized administrators can execute POST, PUT, and DELETE operations on the trips collection.
-        </p>
+      <h3>What Was Improved</h3>
+      <p>The original schemas were basic and lacked strict validation, which left the application open to bad data and unauthorized modifications. I enforced strict schema-level constraints in Mongoose: unique identifiers on trip codes, maxlength on text fields, and enum validators. I also implemented a database-backed Role-Based Access Control system. By adding a <code>role</code> field restricted to <code>user</code> or <code>admin</code> on the User schema and embedding that role into authentication JWTs, only authorized administrators can execute POST, PUT, and DELETE operations on the trips collection.</p>
 
-        <h3>Course Outcomes</h3>
-        <p>
-          This enhancement meets Course Outcome 4 (using well-founded techniques in database implementation to accomplish industry goals) through the robust schema design and query validations. It also strongly meets Course Outcome 5 (developing a security mindset) because I anticipated adversarial exploits and mitigated design flaws by locking down the database against unauthorized modifications.
-        </p>
+      <h3>Course Outcomes</h3>
+      <p>This meets Outcome 4 (well-founded database implementation techniques) through the schema design and Outcome 5 (security mindset) by locking down write operations against unauthorized users at both the application and database layer.</p>
 
-        <h3>Reflection</h3>
-        <p>
-          Reflecting on this process, I learned how critical it is to treat the database schema as the final line of defense for data integrity. Relying solely on API-level validation is not enough -- the database itself must reject malformed data. The main challenge was figuring out how to check a user's role efficiently without a database query on every request. I solved this by embedding the role directly into the JWT payload at login time, so the RBAC middleware can read it instantly from the token. This improved my understanding of how database architecture intersects with application performance and security.
-        </p>
-      </div>
+      <h3>What I Learned</h3>
+      <p>The most important thing I learned was to treat the database schema as the final line of defense for data integrity. API-level validation is not enough on its own. The main challenge was checking a user's role efficiently without hitting the database on every request. I solved this by embedding the role directly into the JWT at login, so the RBAC middleware can read it instantly from the token without any extra database call. That decision improved my understanding of how database design and application performance intersect.</p>
     </div>
   </section>
 
-</div><!-- /page -->
+  <!-- CONCLUSION -->
+  <div class="conclusion reveal">
+    <div class="conclusion-inner">
+      <p><strong>A note on how I work.</strong></p>
+      <p>I am a new-generation software engineer. I use AI as a development tool, the same way engineers before me used Stack Overflow, documentation, and senior developers to accelerate their work. The difference is that I am deliberate about it. I do not blindly copy output. I read it, question it, understand it, and own every line that goes into my projects. The work in this portfolio is mine, and I can explain every decision in it.</p>
+      <p>I think the industry is still figuring out how to think about this shift. But I believe the engineers who will thrive are the ones who learn to work strategically with these tools while developing strong enough fundamentals to know when the output is wrong, when there is a better approach, and when to push back. That is the kind of engineer I am working to become.</p>
+      <p>The fundamentals matter more now, not less. Understanding why an LRU cache uses a doubly linked list, or why you embed a role in a JWT instead of querying the database on every request -- that knowledge is what lets you use AI effectively instead of just using it blindly. I am still learning, still developing, and I think that is exactly where I should be.</p>
+    </div>
+  </div>
+
+</div>
 
 <footer>
-  <span>CS 499 Capstone | Southern New Hampshire University | 2026</span>
-  <a href="https://github.com/DevNom7" target="_blank" rel="noopener" style="color:#38bdf8;">
-    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.62 7.62 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-    GitHub
-  </a>
-  <a href="https://www.linkedin.com/in/nlindsay14985/" target="_blank" rel="noopener" style="color:#22c55e;">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.604 0 4.269 2.372 4.269 5.456v6.285zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.777 13.019H3.559V9h3.555v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg>
-    LinkedIn
-  </a>
+  <div class="footer-inner">
+    <span>CS 499 Capstone, SNHU 2026</span>
+    <a href="https://github.com/DevNom7" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.62 7.62 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/nlindsay14985/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.604 0 4.269 2.372 4.269 5.456v6.285zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.777 13.019H3.559V9h3.555v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg>
+      LinkedIn
+    </a>
+  </div>
 </footer>
 
+<script>
+  // Scroll progress bar
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+
+  // Section reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('nav a:not(.nav-brand)');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active-link'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active-link');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => navObserver.observe(s));
+</script>
 </body>
 </html>
