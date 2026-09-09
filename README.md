@@ -8,14 +8,14 @@ Hey, I'm Naim. This repository holds my Southern New Hampshire University CS 499
 - **app.js** / **bin/www**: Express bootstrap.
 
 ## Live links
-- Portfolio: https://devnom7.github.io/naimlindsay/
+- Portfolio: https://naim-lindsay.github.io/naimlindsay/
 - Personal site: https://naimlindsay.com
-- GitHub: https://github.com/DevNom7
+- GitHub: https://github.com/naim-lindsay
 - LinkedIn: https://www.linkedin.com/in/nlindsay14985/
 
 ## How to run locally
 ```bash
-git clone https://github.com/DevNom7/naimlindsay.git
+git clone https://github.com/naim-lindsay/naimlindsay.git
 cd naimlindsay
 npm install
 npm start
